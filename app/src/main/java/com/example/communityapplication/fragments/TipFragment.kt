@@ -64,8 +64,17 @@ class TipFragment : Fragment() {
 
         imgAll.setOnClickListener{
             val intentToContentsActivity = Intent(context, ContentsActivity::class.java)
+            intentToContentsActivity.putExtra("category", "category1")
             startActivity(intentToContentsActivity)
         }
+
+        imgCook.setOnClickListener{
+            val intentToContentsActivity = Intent(context, ContentsActivity::class.java)
+            intentToContentsActivity.putExtra("category", "category2")
+            startActivity(intentToContentsActivity)
+        }
+
+
 
         return binding.root
     }

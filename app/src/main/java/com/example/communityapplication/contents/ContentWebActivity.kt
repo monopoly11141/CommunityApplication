@@ -16,6 +16,5 @@ class ContentWebActivity : AppCompatActivity() {
         val wbContent : WebView = findViewById(R.id.wbContent)
         wbContent.loadUrl(websiteURL.toString())
 
-
     }
 }
