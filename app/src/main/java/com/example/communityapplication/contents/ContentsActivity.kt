@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.communityapplication.R
 import com.example.communityapplication.databinding.ActivityContentsBinding
+import com.example.communityapplication.utils.FirebaseAuthUtil
+import com.example.communityapplication.utils.FirebaseRefUtil
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -31,6 +33,10 @@ class ContentsActivity : AppCompatActivity() {
     private val RVContentModelPasta = RVContentModel("사골곰탕 파스타",
         "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fbtig9C%2Fbtq65UGxyWI%2FPRBIGUKJ4rjMkI7KTGrxtK%2Fimg.png",
         "https://philosopher-chan.tistory.com/1237")
+
+    val bookmarkIDList = mutableListOf<String>()
+    lateinit var rvContentAdapter : RVContentsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,9 +44,10 @@ class ContentsActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_contents)
 
         val contents = mutableListOf<RVContentModel>()
+        val contentsKeyList = mutableListOf<String>()
 
         val rvContents = binding.rvContents
-        val rvContentAdapter = RVContentsAdapter(baseContext, contents)
+        rvContentAdapter = RVContentsAdapter(baseContext, contents, contentsKeyList, bookmarkIDList)
 
         // Write a message to the database
         val database = Firebase.database
@@ -52,7 +59,6 @@ class ContentsActivity : AppCompatActivity() {
             "category1" -> {myRef = database.getReference("contents")}
             "category2" -> {myRef = database.getReference("contents2")}
         }
-        //val myRef = database.getReference("contents")
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -61,6 +67,8 @@ class ContentsActivity : AppCompatActivity() {
 
                     val content = dataModel.getValue(RVContentModel::class.java)
                     contents.add(content!!)
+
+                    contentsKeyList.add(dataModel.key.toString())
 
                 }
                 rvContentAdapter.notifyDataSetChanged()
@@ -80,23 +88,31 @@ class ContentsActivity : AppCompatActivity() {
 
         rvContents.layoutManager = GridLayoutManager(this, 2)
 
-        rvContentAdapter.itemClick = object : RVContentsAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                Toast.makeText(baseContext, contents[position].name, Toast.LENGTH_SHORT).show()
-
-                val intentToContentWebViewActivity =
-                    Intent(this@ContentsActivity, ContentWebActivity::class.java)
-                intentToContentWebViewActivity.putExtra("websiteURL", contents[position].websiteURL)
-                startActivity(intentToContentWebViewActivity)
-            }
-
-        }
-
-//        val myRef2 = database.getReference("contents2")
-//        myRef2.push().setValue(RVContentModelRicotaCheese)
-//        myRef2.push().setValue(RVContentModelEgg)
-//        myRef2.push().setValue(RVContentModelPasta)
-
+        getBookmarkData()
 
     }
+
+    private fun getBookmarkData() {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for(dataModel in dataSnapshot.children) {
+                    bookmarkIDList.add(dataModel.key.toString())
+
+                }
+                Log.d(this::class.java.toString(), bookmarkIDList.toString())
+                rvContentAdapter.notifyDataSetChanged()
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("ContentsActivity", "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FirebaseRefUtil.bookmarkRef.child(FirebaseAuthUtil.getUID()).addValueEventListener(postListener)
+    }
+
+
+
 }
