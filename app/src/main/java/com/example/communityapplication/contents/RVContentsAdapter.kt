@@ -74,8 +74,17 @@ class RVContentsAdapter(
 
                 Toast.makeText(context, key, Toast.LENGTH_SHORT).show()
 
-                FirebaseRefUtil.bookmarkRef.child(FirebaseAuthUtil.getUID()).child(key)
-                    .setValue(BookmarkModel(true))
+                if(bookmarkIDList.contains(key)) {
+                    //북마크가 되어있을 때, 없애주기
+                    FirebaseRefUtil.bookmarkRef.child(FirebaseAuthUtil.getUID()).child(key)
+                        .removeValue()
+                } else {
+                    //북마크가 없을 때, 넣어주기
+                    FirebaseRefUtil.bookmarkRef.child(FirebaseAuthUtil.getUID()).child(key)
+                        .setValue(BookmarkModel(true))
+                }
+
+
 
             }
 
