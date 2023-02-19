@@ -15,18 +15,18 @@ import com.example.communityapplication.R
 import com.example.communityapplication.utils.FirebaseAuthUtil
 import com.example.communityapplication.utils.FirebaseRefUtil
 
-class RVContentsAdapter(
+class RVBookmarkAdapter(
     val context: Context,
     val contents: MutableList<RVContentModel>,
     val contentsKeyList: MutableList<String>,
     val bookmarkIDList: MutableList<String>
 ) :
-    RecyclerView.Adapter<RVContentsAdapter.ViewHolder>() {
+    RecyclerView.Adapter<RVBookmarkAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RVContentsAdapter.ViewHolder {
+    ): RVBookmarkAdapter.ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.rv_contents_item, parent, false)
 
@@ -36,7 +36,7 @@ class RVContentsAdapter(
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RVContentsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RVBookmarkAdapter.ViewHolder, position: Int) {
         holder.bindContent(contents[position], contentsKeyList[position])
     }
 
@@ -54,7 +54,6 @@ class RVContentsAdapter(
                 val intentToContentWebActivity = Intent(context, ContentWebActivity::class.java)
                 intentToContentWebActivity.putExtra("websiteURL", item.websiteURL)
 
-
                 itemView.context.startActivity(intentToContentWebActivity)
             }
 
@@ -66,28 +65,6 @@ class RVContentsAdapter(
                 imgBookmark.setImageResource(R.drawable.bookmark_color)
             }else {
                 imgBookmark.setImageResource(R.drawable.bookmark_white)
-            }
-
-
-            imgBookmark.setOnClickListener {
-                Log.d(this::class.java.toString(), FirebaseAuthUtil.getUID())
-
-                Toast.makeText(context, key, Toast.LENGTH_SHORT).show()
-
-                if(bookmarkIDList.contains(key)) {
-                    //북마크가 되어있을 때, 없애주기
-                    //bookmarkIDList.remove(key)
-
-                    FirebaseRefUtil.bookmarkRef.child(FirebaseAuthUtil.getUID()).child(key)
-                        .removeValue()
-                } else {
-                    //북마크가 없을 때, 넣어주기
-                    FirebaseRefUtil.bookmarkRef.child(FirebaseAuthUtil.getUID()).child(key)
-                        .setValue(BookmarkModel(true))
-                }
-
-
-
             }
 
             tvContent.text = item.name

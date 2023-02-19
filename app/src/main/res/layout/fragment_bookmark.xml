@@ -8,6 +8,14 @@
         android:layout_height="match_parent"
         tools:context=".fragments.BookmarkFragment">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBookmark"
+            android:layout_width="match_parent"
+            android:layout_height="666dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -91,6 +99,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/bottom_store" />
             </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
