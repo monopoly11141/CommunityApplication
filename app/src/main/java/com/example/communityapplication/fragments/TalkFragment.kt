@@ -1,5 +1,6 @@
 package com.example.communityapplication.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.communityapplication.R
+import com.example.communityapplication.board.BoardWriteActivity
 import com.example.communityapplication.databinding.FragmentTalkBinding
 
 class TalkFragment : Fragment() {
@@ -30,6 +32,12 @@ class TalkFragment : Fragment() {
         val imgBottomTalk = binding.imgBottomTalk
         val imgBottomBookmark = binding.imgBottomBookmark
         val imgBottomStore = binding.imgBottomStore
+        val imgWrite = binding.imgWrite
+
+        imgWrite.setOnClickListener {
+            val intentToBoardWriteActivity = Intent(context, BoardWriteActivity::class.java)
+            startActivity(intentToBoardWriteActivity)
+        }
 
         imgBottomHometap.setOnClickListener {
             it.findNavController().navigate(R.id.action_talkFragment_to_homeFragment)
