@@ -10,7 +10,8 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/lvBoard"/>
+            android:id="@+id/lvBoard"
+            android:layout_marginBottom="75dp"/>
 
         <ImageView
             android:id="@+id/imgWrite"
