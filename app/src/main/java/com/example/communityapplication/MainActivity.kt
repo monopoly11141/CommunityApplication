@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.communityapplication.auth.IntroActivity
 import com.example.communityapplication.databinding.ActivityMainBinding
+import com.example.communityapplication.setting.SettingActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -18,7 +19,14 @@ class MainActivity : AppCompatActivity() {
 
         //binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        
+
+        val imgMainMenu = binding.imgMainMenu
+
+        imgMainMenu.setOnClickListener {
+            val intentToSettingActivity = Intent(this, SettingActivity::class.java)
+            startActivity(intentToSettingActivity)
+        }
+
         //binding variable
 //        val btnLogout = binding.btnLogout
 //

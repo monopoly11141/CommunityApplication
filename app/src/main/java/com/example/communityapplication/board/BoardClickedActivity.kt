@@ -1,5 +1,6 @@
 package com.example.communityapplication.board
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,10 +9,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.communityapplication.R
 import com.example.communityapplication.databinding.ActivityBoardClickedBinding
+import com.example.communityapplication.utils.FirebaseAuthUtil
 import com.example.communityapplication.utils.FirebaseRefUtil
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
@@ -56,6 +59,14 @@ class BoardClickedActivity : AppCompatActivity() {
                     tvClickedTitle.text = dataModel!!.title
                     tvClickedTime.text = dataModel!!.time
                     tvClickedContent.text = dataModel!!.content
+
+                    if(dataModel!!.uid == FirebaseAuthUtil.getUID()) {
+                        binding.imgMainMenu.isVisible = true
+                        Toast.makeText(baseContext, "내가 글쓴이", Toast.LENGTH_SHORT).show()
+                    }else {
+                        Toast.makeText(baseContext, "내가 글쓴이가 아님", Toast.LENGTH_SHORT).show()
+                    }
+
                 }catch(e : Exception) {
                     Log.d(TAG, "삭제 완료")
                 }
@@ -102,7 +113,12 @@ class BoardClickedActivity : AppCompatActivity() {
         val btnDelete = alertDialog.findViewById<Button>(R.id.btnDelete)
 
         btnChange?.setOnClickListener{
-            Toast.makeText(this, "Change Clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "수정 버튼을 눌렀습니다.", Toast.LENGTH_SHORT).show()
+
+            val intentToBoardEditActivity = Intent(this, BoardEditActivity::class.java)
+            intentToBoardEditActivity.putExtra("key", key)
+            startActivity(intentToBoardEditActivity)
+
         }
 
         btnDelete?.setOnClickListener{

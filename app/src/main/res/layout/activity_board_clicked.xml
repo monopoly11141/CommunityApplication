@@ -27,7 +27,8 @@
             android:layout_margin="10dp"
             android:src="@drawable/main_menu"
             app:layout_constraintEnd_toEndOf="@+id/tvClickedTitle"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"/>
 
         <View
             android:id="@+id/view"
