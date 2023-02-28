@@ -2,7 +2,11 @@ package com.example.communityapplication.board
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -20,12 +24,19 @@ class BoardClickedActivity : AppCompatActivity() {
 
     private val TAG = BoardClickedActivity::class.java.simpleName
     private lateinit var binding: ActivityBoardClickedBinding
+    private lateinit var key : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_clicked)
 
-        val key = intent.getStringExtra("key").toString()
+        val imgMainMenu = binding.imgMainMenu
+
+        imgMainMenu.setOnClickListener {
+            showMainMenuDialog()
+        }
+
+        key = intent.getStringExtra("key").toString()
         getBoardData(key)
         getImageData(key)
 
@@ -35,16 +46,21 @@ class BoardClickedActivity : AppCompatActivity() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                val dataModel = dataSnapshot.getValue(BoardModel::class.java)
-                Log.d(TAG, dataModel!!.title)
+                try{
+                    val dataModel = dataSnapshot.getValue(BoardModel::class.java)
 
-                val tvClickedTitle = binding.tvClickedTitle
-                val tvClickedTime = binding.tvClickedTime
-                val tvClickedContent = binding.tvClickedContent
+                    val tvClickedTitle = binding.tvClickedTitle
+                    val tvClickedTime = binding.tvClickedTime
+                    val tvClickedContent = binding.tvClickedContent
 
-                tvClickedTitle.text = dataModel!!.title
-                tvClickedTime.text = dataModel!!.time
-                tvClickedContent.text = dataModel!!.content
+                    tvClickedTitle.text = dataModel!!.title
+                    tvClickedTime.text = dataModel!!.time
+                    tvClickedContent.text = dataModel!!.content
+                }catch(e : Exception) {
+                    Log.d(TAG, "삭제 완료")
+                }
+
+
 
             }
 
@@ -71,6 +87,30 @@ class BoardClickedActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun showMainMenuDialog() {
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_main_menu, null)
+
+        val mBuilder = AlertDialog.Builder(this).setView(mDialogView).setTitle("게시글 수정 삭제")
+
+        val alertDialog = mBuilder.show()
+
+        val btnChange = alertDialog.findViewById<Button>(R.id.btnChange)
+
+        val btnDelete = alertDialog.findViewById<Button>(R.id.btnDelete)
+
+        btnChange?.setOnClickListener{
+            Toast.makeText(this, "Change Clicked", Toast.LENGTH_SHORT).show()
+        }
+
+        btnDelete?.setOnClickListener{
+            FirebaseRefUtil.boardRef.child(key).removeValue()
+            Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+
     }
 
 }
