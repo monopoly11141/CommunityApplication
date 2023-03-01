@@ -3,76 +3,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".board.BoardClickedActivity">
+        android:layout_height="match_parent">
 
-
-        <TextView
-            android:id="@+id/tvClickedTitle"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="60sp"
-            android:gravity="center"
-            android:text="title"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imgMainMenu"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:src="@drawable/main_menu"
-            app:layout_constraintEnd_toEndOf="@+id/tvClickedTitle"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".board.BoardClickedActivity">
 
-        <View
-            android:id="@+id/view"
+                <TextView
+                    android:id="@+id/tvClickedTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="60sp"
+                    android:gravity="center"
+                    android:text="title"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imgMainMenu"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/main_menu"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="@+id/tvClickedTitle"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvClickedTitle" />
+
+                <TextView
+                    android:id="@+id/tvClickedTime"
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="right"
+                    android:paddingEnd="10dp"
+                    android:text="time"
+                    app:layout_constraintEnd_toEndOf="@+id/view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvClickedTitle" />
+
+                <TextView
+                    android:id="@+id/tvClickedContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/round"
+                    android:padding="32dp"
+                    android:text="내용"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvClickedTitle" />
+
+                <ImageView
+                    android:id="@+id/imgClickedImg"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.495"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvClickedContent"
+                    app:layout_constraintVertical_bias="0.044" />
+
+                <ListView
+                    android:id="@+id/lvComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
+                    android:layout_margin="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgClickedImg" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvClickedTitle" />
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tvClickedTime"
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:gravity="right"
-            android:paddingEnd="10dp"
-            android:text="time"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvClickedTitle" />
+            <EditText
+                android:id="@+id/etComment"
+                android:layout_width="320dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:hint="댓글을 입력해주세요." />
 
-        <TextView
-            android:id="@+id/tvClickedContent"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/round"
-            android:padding="32dp"
-            android:text="내용"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvClickedTitle" />
+            <ImageView
+                android:id="@+id/imgCommentWrite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btnwrite" />
 
-        <ImageView
-            android:id="@+id/imgClickedImg"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvClickedContent" />
+        </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+
+
 </layout>

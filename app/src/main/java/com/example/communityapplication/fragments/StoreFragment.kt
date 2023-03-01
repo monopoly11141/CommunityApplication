@@ -29,6 +29,9 @@ class StoreFragment : Fragment() {
         val imgBottomTalk = binding.imgBottomTalk
         val imgBottomBookmark = binding.imgBottomBookmark
         val imgBottomStore = binding.imgBottomStore
+        val wbStore = binding.wbStore
+
+        wbStore.loadUrl("https://www.inflearn.com/")
 
         imgBottomHometap.setOnClickListener {
             it.findNavController().navigate(R.id.action_storeFragment_to_homeFragment)

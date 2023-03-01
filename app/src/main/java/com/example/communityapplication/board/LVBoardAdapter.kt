@@ -32,9 +32,9 @@ class LVBoardAdapter(val boardList: MutableList<BoardModel>) : BaseAdapter() {
             LayoutInflater.from(parent!!.context).inflate(R.layout.board_list_item, parent, false)
 
         val llitem: LinearLayout = convertView!!.findViewById(R.id.llitem)
-        val tvTitle: TextView = convertView!!.findViewById(R.id.tvTitle)
-        val tvContent: TextView = convertView!!.findViewById(R.id.tvContent)
-        val tvTime: TextView = convertView!!.findViewById(R.id.tvTime)
+        val tvTitle: TextView = convertView.findViewById(R.id.tvTitle)
+        val tvContent: TextView = convertView.findViewById(R.id.tvContent)
+        val tvTime: TextView = convertView.findViewById(R.id.tvTime)
 
         if (boardList[position].uid == FirebaseAuthUtil.getUID()) {
             llitem.setBackgroundColor(Color.parseColor("#FFA500"))
@@ -44,7 +44,7 @@ class LVBoardAdapter(val boardList: MutableList<BoardModel>) : BaseAdapter() {
         tvContent.text = boardList[position].content
         tvTime.text = boardList[position].time
 
-        return convertView!!
+        return convertView
 
     }
 
